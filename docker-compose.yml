@@ -1,0 +1,9 @@
+version: '3'
+services:
+  postgresql:
+    image: postgres:14.1-alpine
+    ports:
+      - 9192:5432
+    environment:
+      - POSTGRES_PASSWORD=admin
+    
