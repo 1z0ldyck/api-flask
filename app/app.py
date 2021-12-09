@@ -18,9 +18,7 @@ class People(db.Model):
            "age": int(self.age)
        }
         
-validate_data = ["name", "age"]
 
-db.create_all()
 
 @app.route('/get_users')
 def index():
@@ -29,6 +27,7 @@ def index():
 
 @app.route('/post_people', methods=['POST'])
 def post_people():
+    validate_data = ["name", "age"]
     content = json.loads(request.data)
     if content:
         verify_data = [data for data in validate_data if data in content.keys()]
@@ -39,3 +38,6 @@ def post_people():
         else:
             data = {'Error': 'it was not possible to register the person'}
             return jsonify(data), 500
+
+if __name__ == '__main__':
+    db.create_all()
