@@ -26,7 +26,8 @@ class People(db.Model):
         
 @app.after_request
 def redirect_user(response):
-    error_status_code = True if response.status_code == 404 or response.status_code == 500 else False
+    error_status_code = (True if response.status_code == 404 
+                         or response.status_code == 500 else False)
     if(error_status_code):
         return redirect(url_for('index'))
     return response
@@ -34,14 +35,19 @@ def redirect_user(response):
 @app.route('/get_users')
 def index():
     people = People.query.all()
-    return jsonify({"users": [x.to_json() for x in people] if len(people) > 0 else 'Nenhum dado encontrado.'})
+    return jsonify({"users": [x.to_json() for x in people] 
+                    if len(people) > 0 
+                    else 'Nenhum dado encontrado.'})
 
 @app.route('/post_people', methods=['POST'])
 def post_people():
     validate_data = ["name", "age"]
     content = json.loads(request.data)
+    
     if content:
-        verify_data = [data for data in validate_data if data in content.keys()]
+        verify_data = [data for data in validate_data 
+                       if data in content.keys()]
+        
         if validate_data == verify_data:
             people = People(name=content['name'], age=content['age'])
             db.session.add(people)
