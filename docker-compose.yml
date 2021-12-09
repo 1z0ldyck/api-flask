@@ -1,9 +1,15 @@
 version: '3'
 services:
+  app:
+    build: .
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgresql
   postgresql:
     image: postgres:14.1-alpine
-    ports:
-      - 9192:5432
     environment:
       - POSTGRES_PASSWORD=admin
+    ports:
+      - 5432:5432
     

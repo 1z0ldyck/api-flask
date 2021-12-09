@@ -3,15 +3,18 @@ from flask import (
     jsonify, 
     request, 
     redirect, 
-    url_for
+    url_for,
 )
+
 from flask_sqlalchemy import SQLAlchemy
 
 import json
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost:9192/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@172.25.0.2:5432/postgres'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 
 class People(db.Model):
    id = db.Column(db.Integer, primary_key=True)
@@ -23,6 +26,8 @@ class People(db.Model):
            "name": self.name,
            "age": int(self.age)
        }
+
+db.create_all()
         
 @app.after_request
 def redirect_user(response):
@@ -55,6 +60,3 @@ def post_people():
         else:
             data = {'Error': 'it was not possible to register the person'}
             return jsonify(data), 500
-
-if __name__ == '__main__':
-    db.create_all()
