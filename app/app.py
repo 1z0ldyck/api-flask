@@ -1,4 +1,10 @@
-from flask import Flask, jsonify, request
+from flask import (
+    Flask, 
+    jsonify, 
+    request, 
+    redirect, 
+    url_for
+)
 from flask_sqlalchemy import SQLAlchemy
 
 import json
@@ -18,12 +24,17 @@ class People(db.Model):
            "age": int(self.age)
        }
         
-
-
+@app.after_request
+def redirect_user(response):
+    error_status_code = True if response.status_code == 404 or response.status_code == 500 else False
+    if(error_status_code):
+        return redirect(url_for('index'))
+    return response
+        
 @app.route('/get_users')
 def index():
     people = People.query.all()
-    return jsonify({"users": [x.to_json() for x in people]})
+    return jsonify({"users": [x.to_json() for x in people] if len(people) > 0 else 'Nenhum dado encontrado.'})
 
 @app.route('/post_people', methods=['POST'])
 def post_people():
