@@ -1,10 +1,12 @@
 import pika, os, json
-from dotenv import load_dotenv
+
+def init_app(app):
+  app.Producer = Producer(app)
 
 class Producer:
-  def __init__(self):
-    load_dotenv()
-    self.connection = pika.BlockingConnection(pika.ConnectionParameters(os.environ['RABBITMQ_HOST']))
+  def __init__(self, app):
+    self.app = app
+    self.connection = pika.BlockingConnection(pika.ConnectionParameters(app.config['RABBITMQ_HOST']))
     self.channel = self.connection.channel()
   
   def publish_data(self, message):
