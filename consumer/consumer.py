@@ -5,7 +5,7 @@ import psycopg2
 import consumer.config as config
 
 class Consumer:
-
+  """Application with the consumption proposal as application messages through the RabbitMQ queue"""
   config = {}
   
   def __init__(self):
@@ -14,6 +14,7 @@ class Consumer:
     self.channel = self.connection.channel()
 
   def receive_data(self):
+    """Consumes data from the RabbitMQ queue"""
     self.channel.basic_consume(queue='send_message',
                                  auto_ack=True,
                                  on_message_callback=self.publish_in_db)
@@ -21,6 +22,7 @@ class Consumer:
   
   @staticmethod
   def publish_in_db(ch, method, properties, data):
+    """Publish the consumed data to the database"""
     data_dict = json.loads(data)
     conn_db = psycopg2.connect(host=Consumer.config['POSTGRES_HOST'], 
                                database=Consumer.config['POSTGRES_DATABASE'], 

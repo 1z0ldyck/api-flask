@@ -1,6 +1,7 @@
 import pika, os, json
 
 def init_app(app):
+  """Start Producer"""
   app.Producer = Producer(app)
 
 class Producer:
@@ -10,6 +11,7 @@ class Producer:
     self.channel = self.connection.channel()
   
   def publish_data(self, message):
+    """Publish the received data to the RabbitMQ queue"""
     self.channel.queue_declare(queue='send_message')
     self.channel.basic_publish(exchange='',
                                routing_key='send_message',

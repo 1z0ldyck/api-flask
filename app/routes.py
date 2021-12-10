@@ -9,6 +9,7 @@ from app.ext.people import People
 import os, json
 
 def init_app(app):
+  """Routes of application"""
   
   @app.after_request
   def redirect_user(response):
