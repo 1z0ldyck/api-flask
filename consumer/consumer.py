@@ -17,7 +17,7 @@ class Consumer:
   @staticmethod
   def publish_in_db(ch, method, properties, data):
     data_dict = json.loads(data)
-    conn_db = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="admin")
+    conn_db = psycopg2.connect(host=os.environ['POSTGRES_HOST'], database=os.environ['POSTGRES_DATABASE'], user=os.environ['POSTGRES_USER'], password=os.environ['POSTGRES_PASSWORD'])
     cursor = conn_db.cursor()
     cursor.execute(f""" 
                    INSERT INTO People (name, age) VALUES ('{data_dict['name']}', {data_dict['age']})

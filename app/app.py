@@ -63,11 +63,11 @@ def post_people():
         
         if validate_data == verify_data:
             producer.publish_data(request.data)
-            data = {'success:' 'you send a data with success. Congratulations!'}
-            return ''
+            message_api = {'success:' 'you send a data with success. Congratulations!'}
+            return jsonify(message_api), 200
         else:
-            data = {'error': 'it was not possible to send the data.'}
-            return jsonify(data), 500
+            message_api = {'error': 'it was not possible to send the data.'}
+            return jsonify(message_api), 500
         
 if __name__ == '__main__':
     app.run()
