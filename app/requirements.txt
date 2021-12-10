@@ -1,3 +1,5 @@
 fastapi
 flask_sqlalchemy
 psycopg2
+pika
+dotenv
