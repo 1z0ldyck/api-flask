@@ -1,11 +1,16 @@
-import pika, os, json
 from dotenv import load_dotenv
+
+import pika, os, json
 import psycopg2
+import consumer.config as config
 
 class Consumer:
+
+  config = {}
+  
   def __init__(self):
-    load_dotenv()
-    self.connection = pika.BlockingConnection(pika.ConnectionParameters(os.environ['RABBITMQ_HOST']))
+    self.consumer_config = config.init_app(Consumer.config)
+    self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.config['RABBITMQ_HOST']))
     self.channel = self.connection.channel()
 
   def receive_data(self):
@@ -17,10 +22,10 @@ class Consumer:
   @staticmethod
   def publish_in_db(ch, method, properties, data):
     data_dict = json.loads(data)
-    conn_db = psycopg2.connect(host=os.environ['POSTGRES_HOST'], 
-                               database=os.environ['POSTGRES_DATABASE'], 
-                               user=os.environ['POSTGRES_USER'], 
-                               password=os.environ['POSTGRES_PASSWORD'])
+    conn_db = psycopg2.connect(host=Consumer.config['POSTGRES_HOST'], 
+                               database=Consumer.config['POSTGRES_DATABASE'], 
+                               user=Consumer.config['POSTGRES_USER'], 
+                               password=Consumer.config['POSTGRES_PASSWORD'])
     cursor = conn_db.cursor()
     cursor.execute(f""" 
                    INSERT INTO People (name, age) VALUES ('{data_dict['name']}', {data_dict['age']})
