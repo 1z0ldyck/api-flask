@@ -9,7 +9,8 @@
 
 ### ENDPOINT /post_person -> METHOD POST
 
-  ```{
+  ```
+  {
     "TABLE_NAME_1": {
       "COLUMN_1": "VALUE_1",
       "COLUMN_2:  "VALUE_2"
