@@ -1,14 +1,14 @@
-comando pra rodar no docker-compose: docker-compose -f docker-compose.yml --build app postgresql
 
-TODO:
+
+### TODO:
 
 - RabbitMQ
 - OpenTelemetry
 - Grafana
 - Prometheus
 
-ENDPOINT /post_person METHOD POST
-Example:
+### ENDPOINT /post_person -> METHOD POST
+
   ```{
     "TABLE_NAME_1": {
       "COLUMN_1": "VALUE_1",
