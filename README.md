@@ -5,4 +5,4 @@ TODO:
 - RabbitMQ
 - OpenTelemetry
 - Grafana
-- Prometheus Dashboard
+- Prometheus
