@@ -1,5 +1,7 @@
-fastapi
+flask
 flask_sqlalchemy
-psycopg2
 pika
 dotenv
+pytest
+opentelemetry-api
+opentelemetry-sdk
