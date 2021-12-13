@@ -1,7 +1,5 @@
-import pika
-import json
-import psycopg2
-import config as config
+import pika, json, psycopg2
+import config
 
 
 class Consumer:
@@ -22,12 +20,6 @@ class Consumer:
         self.channel.start_consuming()
         
     @staticmethod
-    def convert_str_to_int(values):
-      for value in values:
-        if not value.isalpha():
-          value = int(value)
-
-    @staticmethod
     def publish_in_db(ch, method, properties, data):
         """Publish the consumed data to the database"""
         queue_data = list(json.loads(data).items())
@@ -44,6 +36,10 @@ class Consumer:
                     """)
             conn_db.commit()
           
-          
-consumer = Consumer()
-consumer.receive_data()
+
+def main():           
+    consumer = Consumer()
+    consumer.receive_data()
+
+if __name__ == '__main__':
+    main()

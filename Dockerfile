@@ -7,6 +7,7 @@ COPY /app /home/app
 WORKDIR /home/app
 
 RUN pip3 install -r requirements.txt
+RUN export FLASK_APP="app.app"
 
 EXPOSE 5000
 
