@@ -15,9 +15,10 @@ class Producer:
 
     def publish_data(self, message):
         """Publish the received data to the RabbitMQ queue"""
-        print(message)
         self.channel.queue_declare(queue='send_message')
         self.channel.basic_publish(exchange='',
                                    routing_key='send_message',
                                    body=message
                                    )
+
+    
